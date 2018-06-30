@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IPost } from '../../models/IPost';
+import { Post } from '../../models/Post';
 import { NotifService } from '../../services/notif-service.service';
 import { PostService } from '../../services/post-service.service';
 
@@ -9,8 +9,10 @@ import { PostService } from '../../services/post-service.service';
   templateUrl: './new-post.component.html',
   styleUrls: ['./new-post.component.css']
 })
-export class NewPostComponent implements OnInit {
+export class NewPostComponent implements OnChanges,  OnInit {
   complexForm: FormGroup;
+  listCategories: any = [];
+  @Input() public selectedCategoryId: number;
 
   constructor(
     fb: FormBuilder,
@@ -21,14 +23,34 @@ export class NewPostComponent implements OnInit {
     this.complexForm = fb.group({
       // tslint:disable-next-line:max-line-length
       // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
-      name: [null, Validators.required],
-      mark: [null, Validators.required],
-      model: [null, Validators.required]
+      title: [null, Validators.required],
+      image: [null, Validators.required],
+      content: [null, Validators.required]
     });
   }
-  ngOnInit() {}
 
-  public newPost(model: IPost) {
+  ngOnChanges(changes: SimpleChanges): void {
+
+  }
+
+  ngOnInit() {
+    this.init();
+  }
+
+  private init() {
+    this.postService
+      .getPosts()
+      .then(response => {
+        this.listCategories = response.json() as Post[];
+      })
+      .catch(resp => {
+        console.log(resp);
+        this.notifService.error('Server Exception was raised');
+      });
+  }
+
+  public newPost(model: Post) {
+    model.postCategoryId = 1;
     this.postService
       .addNewPost(model)
       .then(resp => {

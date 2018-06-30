@@ -1,25 +1,35 @@
 <h3> New Post</h3>
-<form [formGroup]="complexForm" (ngSubmit)="newCar(complexForm.value)">
+<form [formGroup]="complexForm" (ngSubmit)="newPost(complexForm.value)">
   <div class="form-group">
+    <label for="">
+      <b>Category</b>
+    </label>
+    <select [formControl]="selectedCategoryId">
+      <option [ngValue]="-1" selected>choose option</option>
+      <option *ngFor="let item of listCategories" [ngValue]="item.id">{{item.title}}</option>
+    </select>
+  </div>
+
+    <div class="form-group">
     <label for="">
       <b>Name</b>
     </label>
-    <input type="text" class="form-control" [formControl]="complexForm.controls['name']" />
-    <div *ngIf="complexForm.controls['name'].hasError('required')" class="has-error">field required</div>
+    <input type="text" class="form-control" id="title" formControlName="title" />
+    <div *ngIf="complexForm.controls['title'].hasError('required')" class="has-error">field required</div>
   </div>
   <div class="form-group">
     <label for="">
-      <b>Mark</b>
+      <b>Image</b>
     </label>
-    <input type="text" class="form-control" [formControl]="complexForm.controls['mark']" />
-    <div *ngIf="complexForm.controls['mark'].hasError('required')" class="has-error">field required</div>
+    <input type="text" class="form-control" id="image" formControlName="image" />
+    <div *ngIf="complexForm.controls['image'].hasError('required')" class="has-error">field required</div>
   </div>
   <div class="form-group">
     <label for="">
-      <b>Model</b>
+      <b>Content</b>
     </label>
-    <input type="text" class="form-control" [formControl]="complexForm.controls['model']" />
-    <div *ngIf="complexForm.controls['model'].hasError('required')" class="has-error">field required</div>
+    <input type="text" class="form-control" id="image" formControlName="content" />
+    <div *ngIf="complexForm.controls['content'].hasError('required')" class="has-error">field required</div>
   </div>
   <div class="form-group">
     <button type="submit" class="btn btn-primary" [disabled]="!complexForm.valid">Submit</button>

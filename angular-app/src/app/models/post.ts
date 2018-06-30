@@ -1,8 +1,8 @@
-export interface IPost {
+export interface Post {
   id: number;
-  categoryId: number;
+  postCategoryId: number;
   categoryName: string;
-  name: string;
+  title: string;
   image: string;
   content: string;
 }

@@ -1,7 +1,7 @@
 import { NotifService } from './../../services/notif-service.service';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { PostService } from '../../services/post-service.service';
-import { IPost } from './../../models/IPost';
+import { Post } from './../../models/Post';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -27,14 +27,14 @@ export class ListComponent implements OnInit {
   private init() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 2
     };
 
     this.selectedItem = -1;
     this._postService
       .getPosts()
       .then(response => {
-        this.listPosts = response.json() as IPost[];
+        this.listPosts = response.json() as Post[];
         this.filtredPosts = this.listPosts.slice(0);
         // Calling the DT trigger to manually render the table
         this.dtTrigger.next();
@@ -45,11 +45,11 @@ export class ListComponent implements OnInit {
       });
   }
   public searchPost() {
-    if (this.selectedItem === -1) {
+    if (this.selectedItem == -1) {
       this.filtredPosts = this.listPosts.slice(0);
     } else {
       this.filtredPosts = this.listPosts.filter(
-        post => post.id === this.selectedItem
+        post => post.id == this.selectedItem
       );
     }
   }
@@ -58,8 +58,8 @@ export class ListComponent implements OnInit {
     this._postService
       .deletePost(id)
       .then(response => {
-        this.filtredPosts = this.filtredPosts.filter((item: IPost) => {
-          return item.id !== id;
+        this.filtredPosts = this.filtredPosts.filter((item: Post) => {
+          return item.id != id;
         });
         this.notifService.success('Delete Operation was well done');
         // this.dtTrigger.next();

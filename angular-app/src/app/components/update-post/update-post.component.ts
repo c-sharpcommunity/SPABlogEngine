@@ -7,7 +7,7 @@ import {
 import { PostService } from './../../services/post-service.service';
 import { NotifService } from './../../services/notif-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { IPost } from '../../models/IPost';
+import { Post } from '../../models/Post';
 
 @Component({
   selector: 'app-updatepost',
@@ -29,23 +29,23 @@ export class UpdatePostComponent implements OnInit {
       this.complexForm = fb.group({
         // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
         id: [''],
-        name: ['', Validators.required],
-        mark: ['', Validators.required],
-        model: ['', Validators.required]
+        title: ['', Validators.required],
+        image: ['', Validators.required],
+        content: ['', Validators.required]
       });
 
       this.postService
         .getPost(id)
         .then(resp => {
-          let post = resp.json() as IPost;
+          let post = resp.json() as Post;
 
           this.complexForm = fb.group({
             // tslint:disable-next-line:max-line-length
             // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
             id: [post.id],
-            name: [post.name, Validators.required],
-            mark: [post.image, Validators.required],
-            model: [post.content, Validators.required]
+            title: [post.title, Validators.required],
+            image: [post.image, Validators.required],
+            content: [post.content, Validators.required]
           });
         })
         .catch(exp => {
@@ -56,7 +56,7 @@ export class UpdatePostComponent implements OnInit {
 
   ngOnInit() {}
 
-  public updatePost(model: IPost) {
+  public updatePost(model: Post) {
     console.log(model);
     this.postService
       .updatePost(model)

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RequestOptions, Http } from '@angular/http';
-import { IPost } from '../models/IPost';
+import { Post } from '../models/Post';
 
 @Injectable()
 export class PostService {
-  carsList: IPost[];
+  carsList: Post[];
   _baseUrl: string = 'https://localhost:44374/api/';
   _getPostsUrl: string = 'ManagePost';
   options = new RequestOptions({
@@ -12,7 +12,6 @@ export class PostService {
   });
   constructor(private http: Http) {}
   public getPosts() {
-    debugger;
     return this.http
       .get(this._baseUrl + this._getPostsUrl, this.options)
       .toPromise();
@@ -22,12 +21,12 @@ export class PostService {
       .get(this._baseUrl + this._getPostsUrl + '/' + id, this.options)
       .toPromise();
   }
-  public addNewPost(_post: IPost) {
+  public addNewPost(_post: Post) {
     return this.http
       .post(this._baseUrl + this._getPostsUrl, _post, this.options)
       .toPromise();
   }
-  public updatePost(_post: IPost) {
+  public updatePost(_post: Post) {
     return this.http
       .put(this._baseUrl + this._getPostsUrl + '/' + _post.id, _post, this.options)
       .toPromise();
