@@ -16,6 +16,18 @@ import { CanActivateService } from './services/canactivate.service';
 import { LoginService } from './services/login-service.service';
 import { DataTablesModule } from 'angular-datatables';
 import { NotifService } from './services/notif-service.service';
+import { BusyModule, BusyConfig} from 'angular2-busy';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+export function getBusyConfig() {
+  return  new BusyConfig({
+    message: 'Please wait ...',
+    backdrop: false,
+    delay: 300,
+    minDuration: 800,
+    wrapperClass: 'ng-busy'
+  });
+}
 
 @NgModule({
   declarations: [
@@ -30,11 +42,13 @@ import { NotifService } from './services/notif-service.service';
   ],
   imports: [
     BrowserModule,
+    BusyModule.forRoot(getBusyConfig()),
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
     routing,
-    DataTablesModule
+    DataTablesModule,
+    BrowserAnimationsModule
   ],
   providers: [
     CarService,
