@@ -1,16 +1,16 @@
 <div class="row">
   <div class="col-lg-8">
     <p>
-      <b>Filter by car id :</b>
-      <select [(ngModel)]="selectedItem" (ngModelChange)="searchCar()">
+      <b>Filter by post id :</b>
+      <select [(ngModel)]="selectedItem" (ngModelChange)="searchPost()">
         <option [value]="-1" selected>choose option</option>
-        <option *ngFor="let item of listCars" [value]="item.id">{{item.name}}</option>
+        <option *ngFor="let item of listPosts" [value]="item.id">{{item.name}}</option>
       </select>
     </p>
   </div>
   <div class="col-lg-4">
     <a class="btn btn-primary btn-xs pull-right " routerLink="/newcar" preserveQueryParams preserveFragment>
-      <b>+</b> Add new car </a>
+      <b>+</b> Add new post </a>
   </div>
 </div>
 <br>
@@ -20,25 +20,25 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Category</th>
           <th>Name</th>
-          <th>Mark</th>
-          <th>Model</th>
-          <th>Registred Date</th>
+          <th>Thumbnail</th>
+          <th>Content</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let car of filtredCars">
-          <td>{{car.id}} </td>
-          <td>{{car.name}}</td>
-          <td>{{car.mark}}</td>
-          <td>{{car.model}}</td>
-          <td>{{car.registered | date }}</td>
+        <tr *ngFor="let post of filtredPosts">
+          <td>{{post.id}} </td>
+          <td>{{post.postCategoryName}}</td>
+          <td>{{post.name}}</td>
+          <td>{{post.image}}</td>
+          <td>{{post.content}}</td>
           <td>
-            <button class="btn btn-link" routerLink="/updatecar/{{car.id}}" preserveQueryParams preserveFragment>
+            <button class="btn btn-link" routerLink="/updatepost/{{post.id}}" preserveQueryParams preserveFragment>
               <i class="fa fa-pencil" aria-hidden="true"></i> Update
             </button>
-            <button class="btn btn-link" (click)="deleteCar(car.id)">
+            <button class="btn btn-link" (click)="deletePost(post.id)">
               <i class="fa fa-trash" aria-hidden="true"></i> Delete
             </button>
           </td>

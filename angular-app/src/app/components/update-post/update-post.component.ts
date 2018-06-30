@@ -4,22 +4,22 @@ import {
   FormBuilder,
   Validators
 } from '@angular/forms';
-import { CarService } from './../../services/car-service.service';
+import { PostService } from './../../services/post-service.service';
 import { NotifService } from './../../services/notif-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { ICar } from '../../models/ICar';
+import { IPost } from '../../models/IPost';
 
 @Component({
-  selector: 'app-updatecar',
-  templateUrl: './update.component.html',
-  styleUrls: ['./update.component.css']
+  selector: 'app-updatepost',
+  templateUrl: './update-post.component.html',
+  styleUrls: ['./update-post.component.css']
 })
-export class UpdatecarComponent implements OnInit {
+export class UpdatePostComponent implements OnInit {
   complexForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private carService: CarService,
+    private postService: PostService,
     private notifService: NotifService,
     private route: ActivatedRoute
   ) {
@@ -34,17 +34,18 @@ export class UpdatecarComponent implements OnInit {
         model: ['', Validators.required]
       });
 
-      this.carService
-        .getCar(id)
+      this.postService
+        .getPost(id)
         .then(resp => {
-          let car = resp.json() as ICar;
+          let post = resp.json() as IPost;
 
           this.complexForm = fb.group({
+            // tslint:disable-next-line:max-line-length
             // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
-            id: [car.id],
-            name: [car.name, Validators.required],
-            mark: [car.mark, Validators.required],
-            model: [car.model, Validators.required]
+            id: [post.id],
+            name: [post.name, Validators.required],
+            mark: [post.image, Validators.required],
+            model: [post.content, Validators.required]
           });
         })
         .catch(exp => {
@@ -55,10 +56,10 @@ export class UpdatecarComponent implements OnInit {
 
   ngOnInit() {}
 
-  public updateCar(model: ICar) {
+  public updatePost(model: IPost) {
     console.log(model);
-    this.carService
-      .updateCar(model)
+    this.postService
+      .updatePost(model)
       .then(resp => {
         this.notifService.success('Update operation is well done');
       })

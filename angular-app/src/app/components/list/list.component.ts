@@ -1,7 +1,7 @@
 import { NotifService } from './../../services/notif-service.service';
 import { Component, NgModule, OnInit } from '@angular/core';
-import { CarService } from '../../services/car-service.service';
-import { ICar } from './../../models/ICar';
+import { PostService } from '../../services/post-service.service';
+import { IPost } from './../../models/IPost';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -10,15 +10,15 @@ import { Subject } from 'rxjs';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  listCars: any = [];
-  filtredCars: any = [];
-  carName: string;
+  listPosts: any = [];
+  filtredPosts: any = [];
+  postName: string;
   selectedItem: number;
   dtTrigger = new Subject();
   dtOptions: DataTables.Settings = {};
 
   constructor(
-    private _carService: CarService,
+    private _postService: PostService,
     private notifService: NotifService
   ) {
     this.init();
@@ -31,11 +31,11 @@ export class ListComponent implements OnInit {
     };
 
     this.selectedItem = -1;
-    this._carService
-      .getCars()
+    this._postService
+      .getPosts()
       .then(response => {
-        this.listCars = response.json() as ICar[];
-        this.filtredCars = this.listCars.slice(0);
+        this.listPosts = response.json() as IPost[];
+        this.filtredPosts = this.listPosts.slice(0);
         // Calling the DT trigger to manually render the table
         this.dtTrigger.next();
       })
@@ -44,22 +44,22 @@ export class ListComponent implements OnInit {
         this.notifService.error('Server Exception was raised');
       });
   }
-  public searchCar() {
-    if (this.selectedItem == -1) {
-      this.filtredCars = this.listCars.slice(0);
+  public searchPost() {
+    if (this.selectedItem === -1) {
+      this.filtredPosts = this.listPosts.slice(0);
     } else {
-      this.filtredCars = this.listCars.filter(
-        car => car.id == this.selectedItem
+      this.filtredPosts = this.listPosts.filter(
+        post => post.id === this.selectedItem
       );
     }
   }
 
-  public deleteCar(id: number) {
-    this._carService
-      .deleteCar(id)
+  public deletePost(id: number) {
+    this._postService
+      .deletePost(id)
       .then(response => {
-        this.filtredCars = this.filtredCars.filter((item: ICar) => {
-          return item.id != id;
+        this.filtredPosts = this.filtredPosts.filter((item: IPost) => {
+          return item.id !== id;
         });
         this.notifService.success('Delete Operation was well done');
         // this.dtTrigger.next();

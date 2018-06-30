@@ -7,17 +7,17 @@ import { ListComponent } from './components/list/list.component';
 import { LoginComponent } from './components/login/login.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { NewcarComponent } from './components/newcar/newcar.component';
-import { UpdatecarComponent } from './components/updatecar/update.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { CarService } from './services/car-service.service';
 import { CanActivateService } from './services/canactivate.service';
 import { LoginService } from './services/login-service.service';
 import { DataTablesModule } from 'angular-datatables';
 import { NotifService } from './services/notif-service.service';
 import { BusyModule, BusyConfig} from 'angular2-busy';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PostService } from './services/post-service.service';
+import { NewPostComponent } from './components/new-post/new-post.component';
+import { UpdatePostComponent } from './components/update-post/update-post.component';
 
 export function getBusyConfig() {
   return  new BusyConfig({
@@ -33,12 +33,12 @@ export function getBusyConfig() {
   declarations: [
     AppComponent,
     ListComponent,
-    NewcarComponent,
+    NewPostComponent,
     LoginComponent,
     NotificationComponent,
     PageNotFoundComponent,
-    NewcarComponent,
-    UpdatecarComponent
+    NewPostComponent,
+    UpdatePostComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +51,7 @@ export function getBusyConfig() {
     BrowserAnimationsModule
   ],
   providers: [
-    CarService,
+    PostService,
     CanActivateService,
     NotifService,
     LoginService
