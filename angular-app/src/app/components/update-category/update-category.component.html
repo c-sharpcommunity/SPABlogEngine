@@ -1,0 +1,21 @@
+<h3> Update Category</h3>
+<form ng-if="complexForm != null" [formGroup]="complexForm" (ngSubmit)="updateCategory(complexForm.value)">
+  <div class="form-group">
+    <label for="">
+      <b>Id</b>
+    </label>
+    <input type="text" class="form-control" [formControl]="complexForm.controls['id']" disabled>
+  </div>
+ 
+  <div class="form-group">
+    <label for="">
+      <b>Name</b>
+    </label>
+    <input type="text" class="form-control" [formControl]="complexForm.controls['title']">
+    <div *ngIf="complexForm.controls['title'].hasError('required')" class="has-error">field required</div>
+  </div>
+  
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary" [disabled]="!complexForm.valid">Submit</button>
+  </div>
+</form>

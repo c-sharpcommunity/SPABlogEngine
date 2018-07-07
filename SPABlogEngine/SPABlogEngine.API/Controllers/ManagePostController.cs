@@ -2,10 +2,8 @@
 using System.Linq;
 using System.Security.Claims;
 using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SPABlogEngine.API.Data;
-using SPABlogEngine.API.Models;
 using SPABlogEngine.API.Models.Blog;
 
 namespace SPABlogEngine.API.Controllers
@@ -16,12 +14,10 @@ namespace SPABlogEngine.API.Controllers
     {
         private IMapper _mapper;
         private ApplicationDbContext dbContext;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public ManagePostController(IMapper mapper, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public ManagePostController(IMapper mapper, ApplicationDbContext context)
         {
             this._mapper = mapper;
             this.dbContext = context;
-            _userManager = userManager;
         }
         // GET api/values
         [HttpGet]
@@ -46,7 +42,7 @@ namespace SPABlogEngine.API.Controllers
             if (ModelState.IsValid)
             {
                 // post.Registered = DateTime.Now;
-                post.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // add userId here.;
+                post.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 var newPost = this._mapper.Map<Post>(post);
                 this.dbContext.Posts.Add(newPost);
                 this.dbContext.SaveChanges();
@@ -71,8 +67,7 @@ namespace SPABlogEngine.API.Controllers
                 }
                 else
                 {
-                    string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // add userId here.
-                    existingPost.UserId = userId;
+                    existingPost.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; ;
                     existingPost.Title = value.Title;
                     existingPost.Image = value.Image;
                     this.dbContext.Posts.Update(existingPost);

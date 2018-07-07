@@ -42,6 +42,7 @@ namespace SPABlogEngine.API.Controllers
             if (ModelState.IsValid)
             {
                 // category.Registered = DateTime.Now;
+                category.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 var newCategory = this._mapper.Map<PostCategory>(category);
                 this.dbContext.PostCategories.Add(newCategory);
                 this.dbContext.SaveChanges();
@@ -66,8 +67,7 @@ namespace SPABlogEngine.API.Controllers
                 }
                 else
                 {
-                    string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // add userId here.
-                    existingCategory.UserId = userId;
+                    existingCategory.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; ;
                     existingCategory.Title = value.Title;
                     existingCategory.Description = value.Description;
                     this.dbContext.PostCategories.Update(existingCategory);

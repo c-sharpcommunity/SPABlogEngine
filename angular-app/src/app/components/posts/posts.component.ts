@@ -6,11 +6,11 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  selector: 'app-posts',
+  templateUrl: './posts.component.html',
+  styleUrls: ['./posts.component.css']
 })
-export class ListComponent implements OnInit {
+export class PostsComponent implements OnInit {
   listPosts: any = [];
   filtredPosts: any = [];
   postName: string;
