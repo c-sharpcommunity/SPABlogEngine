@@ -1,13 +1,15 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PostService } from './../../services/post-service.service';
 import { NotifService } from './../../services/notif-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../../models/Post';
+import {
+  HttpClient,
+  HttpRequest,
+  HttpEventType,
+  HttpResponse
+} from '@angular/common/http';
 
 @Component({
   selector: 'app-updatepost',
@@ -17,13 +19,17 @@ import { Post } from '../../models/Post';
 export class UpdatePostComponent implements OnInit {
   complexForm: FormGroup;
   listCategories: any = [];
+  imageUrl: string = 'https://localhost:44374/Upload/f452fa5388cc66923fdd.jpg';
+  public progress: number;
+  public message: string;
 
   constructor(
     private fb: FormBuilder,
     private postService: PostService,
     private notifService: NotifService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     // Here we are using the FormBuilder to build out our form.
     this.route.params.subscribe(params => {
@@ -78,11 +84,41 @@ export class UpdatePostComponent implements OnInit {
     this.postService
       .updatePost(model)
       .then(resp => {
-        this.router.navigate(["/list"]);
+        this.router.navigate(['/list']);
         this.notifService.success('Update post successful.');
       })
       .catch(exp => {
         this.notifService.error('Server Exception');
       });
+  }
+
+  upload(files) {
+    debugger;
+    if (files.length === 0) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    for (const file of files) {
+      formData.append(file.name, file);
+    }
+
+    const uploadReq = new HttpRequest(
+      'POST',
+      `https://localhost:44374/api/upload`,
+      formData,
+      {
+        reportProgress: true
+      }
+    );
+
+    this.http.request(uploadReq).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress = Math.round((100 * event.loaded) / event.total);
+      } else if (event.type === HttpEventType.Response) {
+        this.message = event.body.toString();
+      }
+    });
   }
 }

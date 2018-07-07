@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PostService } from './services/post-service.service';
 import { NewPostComponent } from './components/new-post/new-post.component';
 import { UpdatePostComponent } from './components/update-post/update-post.component';
+import { HttpClientModule } '@angular/common/http';
 
 export function getBusyConfig() {
   return  new BusyConfig({
@@ -48,7 +49,8 @@ export function getBusyConfig() {
     HttpModule,
     routing,
     DataTablesModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [
     PostService,

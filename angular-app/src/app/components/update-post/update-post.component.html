@@ -30,6 +30,16 @@
     </label>
     <input type="text" class="form-control" [formControl]="complexForm.controls['image']">
     <div *ngIf="complexForm.controls['image'].hasError('required')" class="has-error">field required</div>
+    <img width="150" [src]="imageUrl" />
+    <input #file type="file" multiple (change)="upload(file.files)" />
+    <br/>
+    <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
+      {{progress}}%
+    </span>
+
+    <span style="font-weight:bold;color:green;" *ngIf="message">
+      {{message}}
+    </span>
   </div>
   <div class="form-group">
     <label for="">
