@@ -4,13 +4,15 @@
     <label for="">
       <b>Category</b>
     </label>
-    <select [formControl]="selectedCategoryId">
-      <option [ngValue]="-1" selected>choose option</option>
-      <option *ngFor="let item of listCategories" [ngValue]="item.id">{{item.title}}</option>
+
+    <select class="form-control" id="postCategoryId" formControlName="postCategoryId">
+      <option value="null" [selected]="true">Please select a category</option>
+      <option *ngFor="let c of listCategories" value="{{c.id}}">{{c.title}}</option>
     </select>
+    <div *ngIf="complexForm.controls['postCategoryId'].hasError('required')" class="has-error">field required</div>
   </div>
 
-    <div class="form-group">
+  <div class="form-group">
     <label for="">
       <b>Name</b>
     </label>

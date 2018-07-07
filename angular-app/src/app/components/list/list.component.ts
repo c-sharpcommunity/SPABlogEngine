@@ -3,6 +3,7 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { PostService } from '../../services/post-service.service';
 import { Post } from './../../models/Post';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -19,7 +20,8 @@ export class ListComponent implements OnInit {
 
   constructor(
     private _postService: PostService,
-    private notifService: NotifService
+    private notifService: NotifService,
+    private router: Router
   ) {
     this.init();
   }
@@ -27,7 +29,7 @@ export class ListComponent implements OnInit {
   private init() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 2
+      pageLength: 3
     };
 
     this.selectedItem = -1;
@@ -61,11 +63,11 @@ export class ListComponent implements OnInit {
         this.filtredPosts = this.filtredPosts.filter((item: Post) => {
           return item.id != id;
         });
-        this.notifService.success('Delete Operation was well done');
-        // this.dtTrigger.next();
+        this.router.navigate(["/list"]);
+        this.notifService.success('Delete post successful.');
       })
       .catch(resp => {
-        this.notifService.error('Server Exception was raised');
+        this.notifService.error('Server Exception');
       });
   }
 

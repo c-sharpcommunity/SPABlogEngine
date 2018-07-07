@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { PostService } from './../../services/post-service.service';
 import { NotifService } from './../../services/notif-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../../models/Post';
 
 @Component({
@@ -16,12 +16,14 @@ import { Post } from '../../models/Post';
 })
 export class UpdatePostComponent implements OnInit {
   complexForm: FormGroup;
+  listCategories: any = [];
 
   constructor(
     private fb: FormBuilder,
     private postService: PostService,
     private notifService: NotifService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     // Here we are using the FormBuilder to build out our form.
     this.route.params.subscribe(params => {
@@ -29,6 +31,7 @@ export class UpdatePostComponent implements OnInit {
       this.complexForm = fb.group({
         // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
         id: [''],
+        postCategoryId: ['', Validators.required],
         title: ['', Validators.required],
         image: ['', Validators.required],
         content: ['', Validators.required]
@@ -43,6 +46,7 @@ export class UpdatePostComponent implements OnInit {
             // tslint:disable-next-line:max-line-length
             // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
             id: [post.id],
+            postCategoryId: [post.postCategoryId, Validators.required],
             title: [post.title, Validators.required],
             image: [post.image, Validators.required],
             content: [post.content, Validators.required]
@@ -54,17 +58,31 @@ export class UpdatePostComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getCategories();
+  }
+
+  private getCategories() {
+    this.postService
+      .getPosts()
+      .then(response => {
+        this.listCategories = response.json() as Post[];
+      })
+      .catch(resp => {
+        console.log(resp);
+        this.notifService.error('Server Exception');
+      });
+  }
 
   public updatePost(model: Post) {
-    console.log(model);
     this.postService
       .updatePost(model)
       .then(resp => {
-        this.notifService.success('Update operation is well done');
+        this.router.navigate(["/list"]);
+        this.notifService.success('Update post successful.');
       })
       .catch(exp => {
-        this.notifService.error('Server Exception was raised');
+        this.notifService.error('Server Exception');
       });
   }
 }
