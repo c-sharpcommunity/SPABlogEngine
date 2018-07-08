@@ -16,7 +16,7 @@ const appRoutes: Routes = [
  { path: 'updatepost/:id', component: UpdatePostComponent },
  { path: 'categories', component: CategoriesComponent, canActivate: [CanActivateService] },
  { path: 'newcategory', component: NewCategoryComponent , canActivate: [CanActivateService]},
- { path: 'updatecategpru/:id', component: UpdateCategoryComponent },
+ { path: 'updatecategory/:id', component: UpdateCategoryComponent },
 
  // otherwise redirect to home
  { path: '**', component: PageNotFoundComponent }

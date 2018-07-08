@@ -84,7 +84,7 @@ export class UpdatePostComponent implements OnInit {
     this.postService
       .updatePost(model)
       .then(resp => {
-        this.router.navigate(['/list']);
+        this.router.navigate(['/posts']);
         this.notifService.success('Update post successful.');
       })
       .catch(exp => {

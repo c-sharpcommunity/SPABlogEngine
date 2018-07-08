@@ -63,7 +63,7 @@ export class PostsComponent implements OnInit {
         this.filtredPosts = this.filtredPosts.filter((item: Post) => {
           return item.id != id;
         });
-        this.router.navigate(["/list"]);
+        this.router.navigate(["/posts"]);
         this.notifService.success('Delete post successful.');
       })
       .catch(resp => {

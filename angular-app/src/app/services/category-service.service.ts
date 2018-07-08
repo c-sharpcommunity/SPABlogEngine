@@ -6,7 +6,7 @@ import { Category } from '../models/Category';
 export class CategoryService {
   carsList: Category[];
   _baseUrl: string = 'https://localhost:44374/api/';
-  _getCategoriesUrl: string = 'ManageCategory';
+  _getCategoriesUrl: string = 'ManagePostCategory';
   options = new RequestOptions({
     withCredentials: true
   });

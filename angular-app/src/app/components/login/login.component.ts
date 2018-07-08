@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         localStorage.setItem('loggedUser', this.model.email);
         this.loginService.loginSubject.next(1);
-        this.router.navigate(["/list"]);
+        this.router.navigate(["/posts"]);
       }).catch(exp => {
           this.notifService.error(exp._body);
           this.loading = false;

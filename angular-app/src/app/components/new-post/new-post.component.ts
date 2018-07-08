@@ -59,7 +59,7 @@ export class NewPostComponent implements OnChanges, OnInit {
     this.postService
       .addNewPost(model)
       .then(resp => {
-        this.router.navigate(["/list"]);
+        this.router.navigate(["/posts"]);
         this.notifService.success('Insertion post successful.');
       })
       .catch(exp => {

@@ -2,7 +2,7 @@
   <div class="col-lg-8">
     <p>
       <b>Filter by category name :</b>
-      <select [(ngModel)]="selectedItem" (ngModelChange)="searchCategory()">
+      <select [(ngModel)]="selectedItem" (ngModelChange)="searchCategories()">
         <option [value]="-1" selected>choose option</option>
         <option *ngFor="let item of listCategories" [value]="item.id">{{item.title}}</option>
       </select>
