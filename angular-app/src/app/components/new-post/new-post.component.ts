@@ -15,6 +15,7 @@ import {
   HttpRequest,
   HttpEventType,
 } from '@angular/common/http';
+import { CategoryService } from '../../services/category-service.service';
 
 @Component({
   selector: 'app-newpost',
@@ -30,6 +31,7 @@ export class NewPostComponent implements OnChanges, OnInit {
 
   constructor(
     fb: FormBuilder,
+    private categoryService: CategoryService,
     private postService: PostService,
     private notifService: NotifService,
     private router: Router,
@@ -50,8 +52,8 @@ export class NewPostComponent implements OnChanges, OnInit {
   }
 
   private getCategories() {
-    this.postService
-      .getPosts()
+    this.categoryService
+      .getCategories()
       .then(response => {
         this.listCategories = response.json() as Post[];
       })
