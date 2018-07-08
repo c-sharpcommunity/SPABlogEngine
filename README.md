@@ -31,6 +31,9 @@
 - ASP.NET MVC Core 2.0.0 on .NET Core 2.0.0 
 - Entity Framework Core 2.0.0
 - ASP.NET Identity Core 2.0.0
+- Angular 6.0
+- Swagger
+- Identity Server Authentication.
 
 ## How to contribute
 
