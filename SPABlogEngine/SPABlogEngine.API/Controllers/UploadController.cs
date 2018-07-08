@@ -22,7 +22,7 @@ namespace SPABlogEngine.API.Controllers
             try
             {
                 var file = Request.Form.Files[0];
-                string folderName = "Upload";
+                string folderName = "Upload/Posts";
                 string webRootPath = _hostingEnvironment.WebRootPath;
                 string newPath = Path.Combine(webRootPath, folderName);
                 if (!Directory.Exists(newPath))

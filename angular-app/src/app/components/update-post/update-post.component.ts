@@ -8,7 +8,6 @@ import {
   HttpClient,
   HttpRequest,
   HttpEventType,
-  HttpResponse
 } from '@angular/common/http';
 
 @Component({
@@ -19,9 +18,10 @@ import {
 export class UpdatePostComponent implements OnInit {
   complexForm: FormGroup;
   listCategories: any = [];
-  imageUrl: string = 'https://localhost:44374/Upload/f452fa5388cc66923fdd.jpg';
   public progress: number;
   public message: string;
+  files: File;
+  public imageUrl;
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +35,6 @@ export class UpdatePostComponent implements OnInit {
     this.route.params.subscribe(params => {
       let id = +params['id']; // (+) converts string 'id' to a number
       this.complexForm = fb.group({
-        // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
         id: [''],
         postCategoryId: ['', Validators.required],
         title: ['', Validators.required],
@@ -47,10 +46,9 @@ export class UpdatePostComponent implements OnInit {
         .getPost(id)
         .then(resp => {
           let post = resp.json() as Post;
+          this.imageUrl = 'https://localhost:44374/Upload/Posts/' + post.image;
 
           this.complexForm = fb.group({
-            // tslint:disable-next-line:max-line-length
-            // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
             id: [post.id],
             postCategoryId: [post.postCategoryId, Validators.required],
             title: [post.title, Validators.required],
@@ -80,20 +78,28 @@ export class UpdatePostComponent implements OnInit {
       });
   }
 
-  public updatePost(model: Post) {
-    this.postService
-      .updatePost(model)
-      .then(resp => {
-        this.router.navigate(['/posts']);
-        this.notifService.success('Update post successful.');
-      })
-      .catch(exp => {
-        this.notifService.error('Server Exception');
-      });
+  getFiles(event) {
+    this.files = event.target.files;
   }
 
-  upload(files) {
-    debugger;
+  public updatePost(model: Post) {
+    if (this.files) {
+      model.image = this.files[0].name;
+      this.upload(this.files);
+    }
+
+    this.postService
+    .updatePost(model)
+    .then(resp => {
+      this.router.navigate(['/posts']);
+      this.notifService.success('Update post successful.');
+    })
+    .catch(exp => {
+      this.notifService.error('Server Exception');
+    });
+  }
+
+  private upload(files) {
     if (files.length === 0) {
       return;
     }
@@ -119,6 +125,7 @@ export class UpdatePostComponent implements OnInit {
       } else if (event.type === HttpEventType.Response) {
         this.message = event.body.toString();
       }
+      return this.message;
     });
   }
 }

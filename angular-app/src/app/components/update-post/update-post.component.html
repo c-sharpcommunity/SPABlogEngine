@@ -1,5 +1,5 @@
 <h3> Update Post</h3>
-<form ng-if="complexForm != null" [formGroup]="complexForm" (ngSubmit)="updatePost(complexForm.value)">
+<form ng-if="complexForm != null" [formGroup]="complexForm" (ngSubmit)="updatePost(complexForm.value)"  enctype="multipart/form-data">
   <div class="form-group">
     <label for="">
       <b>Id</b>
@@ -28,18 +28,11 @@
     <label for="">
       <b>Image</b>
     </label>
-    <input type="text" class="form-control" [formControl]="complexForm.controls['image']">
-    <div *ngIf="complexForm.controls['image'].hasError('required')" class="has-error">field required</div>
-    <img width="150" [src]="imageUrl" />
-    <input #file type="file" multiple (change)="upload(file.files)" />
-    <br/>
-    <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
-      {{progress}}%
-    </span>
-
-    <span style="font-weight:bold;color:green;" *ngIf="message">
-      {{message}}
-    </span>
+    <br />
+    <img width="50" [src] = "imageUrl" />
+    <br />
+    <br />
+    <input type="file" name="file" [ngModelOptions]="{standalone: true}" ngModel (change)="getFiles($event)">
   </div>
   <div class="form-group">
     <label for="">

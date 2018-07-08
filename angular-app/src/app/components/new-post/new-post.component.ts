@@ -10,6 +10,11 @@ import { Post } from '../../models/Post';
 import { NotifService } from '../../services/notif-service.service';
 import { PostService } from '../../services/post-service.service';
 import { Router } from '@angular/router';
+import {
+  HttpClient,
+  HttpRequest,
+  HttpEventType,
+} from '@angular/common/http';
 
 @Component({
   selector: 'app-newpost',
@@ -19,20 +24,21 @@ import { Router } from '@angular/router';
 export class NewPostComponent implements OnChanges, OnInit {
   complexForm: FormGroup;
   listCategories: any = [];
+  files: File;
+  public progress: number;
+  public message: string;
 
   constructor(
     fb: FormBuilder,
     private postService: PostService,
     private notifService: NotifService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     // Here we are using the FormBuilder to build out our form.
     this.complexForm = fb.group({
-      // tslint:disable-next-line:max-line-length
-      // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
       postCategoryId: [null, Validators.required],
       title: [null, Validators.required],
-      image: [null, Validators.required],
       content: [null, Validators.required]
     });
   }
@@ -56,6 +62,11 @@ export class NewPostComponent implements OnChanges, OnInit {
   }
 
   public newPost(model: Post) {
+    if (this.files) {
+      model.image = this.files[0].name;
+      this.upload(this.files);
+    }
+
     this.postService
       .addNewPost(model)
       .then(resp => {
@@ -66,4 +77,39 @@ export class NewPostComponent implements OnChanges, OnInit {
         this.notifService.error('Server Exception');
       });
   }
+
+  getFiles(event) {
+    this.files = event.target.files;
+  }
+
+  private upload(files) {
+    if (files.length === 0) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    for (const file of files) {
+      formData.append(file.name, file);
+    }
+
+    const uploadReq = new HttpRequest(
+      'POST',
+      `https://localhost:44374/api/upload`,
+      formData,
+      {
+        reportProgress: true
+      }
+    );
+
+    this.http.request(uploadReq).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress = Math.round((100 * event.loaded) / event.total);
+      } else if (event.type === HttpEventType.Response) {
+        this.message = event.body.toString();
+      }
+      return this.message;
+    });
+  }
+
 }

@@ -32,7 +32,7 @@
           <td>{{post.id}} </td>
           <td>{{post.postCategoryId}}</td>
           <td>{{post.title}}</td>
-          <td>{{post.image}}</td>
+          <td><img width="50" src = "https://localhost:44374/Upload/Posts/{{post.image}}" /></td>
           <td>{{post.content}}</td>
           <td>
             <button class="btn btn-link" routerLink="/updatepost/{{post.id}}" preserveQueryParams preserveFragment>
