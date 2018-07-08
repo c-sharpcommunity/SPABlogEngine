@@ -16,6 +16,7 @@ import {
   HttpEventType,
 } from '@angular/common/http';
 import { CategoryService } from '../../services/category-service.service';
+import { API_URI } from '../../../environments/app.config';
 
 @Component({
   selector: 'app-newpost',
@@ -28,6 +29,7 @@ export class NewPostComponent implements OnChanges, OnInit {
   files: File;
   public progress: number;
   public message: string;
+  private url =  API_URI.ApiUrl;
 
   constructor(
     fb: FormBuilder,
@@ -97,7 +99,7 @@ export class NewPostComponent implements OnChanges, OnInit {
 
     const uploadReq = new HttpRequest(
       'POST',
-      `https://localhost:44374/api/upload`,
+      `${this.url}/api/upload`,
       formData,
       {
         reportProgress: true

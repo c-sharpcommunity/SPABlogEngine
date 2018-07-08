@@ -10,6 +10,7 @@ import {
   HttpEventType,
 } from '@angular/common/http';
 import { CategoryService } from '../../services/category-service.service';
+import { API_URI } from '../../../environments/app.config';
 
 @Component({
   selector: 'app-updatepost',
@@ -23,6 +24,7 @@ export class UpdatePostComponent implements OnInit {
   public message: string;
   files: File;
   public imageUrl;
+  private url =  API_URI.ApiUrl;
 
   constructor(
     private fb: FormBuilder,
@@ -48,7 +50,7 @@ export class UpdatePostComponent implements OnInit {
         .getPost(id)
         .then(resp => {
           let post = resp.json() as Post;
-          this.imageUrl = 'https://localhost:44374/Upload/Posts/' + post.image;
+          this.imageUrl = this.url + '/Upload/Posts/' + post.image;
 
           this.complexForm = fb.group({
             id: [post.id],
@@ -114,7 +116,7 @@ export class UpdatePostComponent implements OnInit {
 
     const uploadReq = new HttpRequest(
       'POST',
-      `https://localhost:44374/api/upload`,
+      `${this.url}/api/upload`,
       formData,
       {
         reportProgress: true

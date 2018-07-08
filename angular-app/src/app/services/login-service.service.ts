@@ -6,11 +6,13 @@ import {
 import 'rxjs/add/operator/toPromise';
 import { Subject } from 'rxjs';
 import { User } from '../models/user';
+import { API_URI } from '../../environments/app.config';
 
 @Injectable()
 export class LoginService {
   public loginSubject = new Subject<any>();
-  _baseUrl: string = 'https://localhost:44374/Account';
+  private url =  API_URI.ApiUrl;
+  _baseUrl: string = this.url +  '/Account';
 
   options = new RequestOptions({
     withCredentials: true

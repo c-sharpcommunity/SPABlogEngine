@@ -70,6 +70,7 @@ namespace SPABlogEngine.API.Controllers
                     existingPost.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; ;
                     existingPost.Title = value.Title;
                     existingPost.Image = value.Image;
+                    existingPost.Content = value.Content;
                     this.dbContext.Posts.Update(existingPost);
                     this.dbContext.SaveChanges();
                     return Ok();

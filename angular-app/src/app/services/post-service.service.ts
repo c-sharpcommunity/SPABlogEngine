@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { RequestOptions, Http } from '@angular/http';
 import { Post } from '../models/Post';
+import { API_URI } from '../../environments/app.config';
 
 @Injectable()
 export class PostService {
   carsList: Post[];
-  _baseUrl: string = 'https://localhost:44374/api/';
+  private url =  API_URI.ApiUrl;
+  _baseUrl: string = this.url + '/api/';
   _getPostsUrl: string = 'ManagePost';
   options = new RequestOptions({
     withCredentials: true

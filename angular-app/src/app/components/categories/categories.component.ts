@@ -4,6 +4,7 @@ import { CategoryService } from '../../services/category-service.service';
 import { Category } from './../../models/Category';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { PAGING_CONFIG } from '../../../environments/app.config';
 
 @Component({
   selector: 'app-categories',
@@ -16,6 +17,7 @@ export class CategoriesComponent implements OnInit {
   selectedItem: number;
   dtTrigger = new Subject();
   dtOptions: DataTables.Settings = {};
+  private pageSize =  PAGING_CONFIG.pageSize;
 
   constructor(
     private _categoryService: CategoryService,
@@ -28,7 +30,7 @@ export class CategoriesComponent implements OnInit {
   private init() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 3
+      pageLength: this.pageSize
     };
 
     this.selectedItem = -1;

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { RequestOptions, Http } from '@angular/http';
 import { Category } from '../models/Category';
+import { API_URI } from '../../environments/app.config';
 
 @Injectable()
 export class CategoryService {
   carsList: Category[];
-  _baseUrl: string = 'https://localhost:44374/api/';
+  private url =  API_URI.ApiUrl;
+  _baseUrl: string = this.url + '/api/';
   _getCategoriesUrl: string = 'ManagePostCategory';
   options = new RequestOptions({
     withCredentials: true

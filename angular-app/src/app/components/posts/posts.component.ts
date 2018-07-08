@@ -4,6 +4,7 @@ import { PostService } from '../../services/post-service.service';
 import { Post } from './../../models/Post';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { PAGING_CONFIG } from '../../../environments/app.config';
 
 @Component({
   selector: 'app-posts',
@@ -17,6 +18,7 @@ export class PostsComponent implements OnInit {
   selectedItem: number;
   dtTrigger = new Subject();
   dtOptions: DataTables.Settings = {};
+  private pageSize =  PAGING_CONFIG.pageSize;
 
   constructor(
     private _postService: PostService,
@@ -29,7 +31,7 @@ export class PostsComponent implements OnInit {
   private init() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 3
+      pageLength: this.pageSize
     };
 
     this.selectedItem = -1;
