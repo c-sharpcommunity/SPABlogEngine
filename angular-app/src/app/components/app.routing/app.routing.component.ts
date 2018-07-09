@@ -19,7 +19,8 @@ const appRoutes: Routes = [
  { path: 'updatecategory/:id', component: UpdateCategoryComponent },
 
  // otherwise redirect to home
- { path: '**', component: PageNotFoundComponent }
+//  { path: '**', component: PageNotFoundComponent }
+{ path: '**', component: LoginComponent }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);
