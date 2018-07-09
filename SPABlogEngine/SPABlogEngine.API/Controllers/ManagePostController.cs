@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SPABlogEngine.API.Data;
 using SPABlogEngine.API.Models.Blog;
 
@@ -23,7 +24,7 @@ namespace SPABlogEngine.API.Controllers
         [HttpGet]
         public IEnumerable<PostViewModel> Get()
         {
-            IEnumerable<PostViewModel> list = this._mapper.Map<IEnumerable<PostViewModel>>(this.dbContext.Posts.AsEnumerable());
+            IEnumerable<PostViewModel> list = this._mapper.Map<IEnumerable<PostViewModel>>(this.dbContext.Posts.Include(blog => blog.PostCategory).AsEnumerable());
             return list;
         }
 
@@ -67,7 +68,8 @@ namespace SPABlogEngine.API.Controllers
                 }
                 else
                 {
-                    existingPost.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; ;
+                    existingPost.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                    existingPost.PostCategoryId = value.PostCategoryId;
                     existingPost.Title = value.Title;
                     existingPost.Image = value.Image;
                     existingPost.Content = value.Content;

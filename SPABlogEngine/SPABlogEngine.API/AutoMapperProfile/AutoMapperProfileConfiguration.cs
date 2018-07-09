@@ -13,7 +13,9 @@ namespace SPABlogEngine.API.AutoMapperProfile
         : base(profileName)
         {
             CreateMap<PostCategory, PostCategoryViewModel>().ReverseMap();
-            CreateMap<Post, PostViewModel>().ReverseMap();
+            CreateMap<Post, PostViewModel>()
+                .ForMember(des => des.CategoryName, opt => opt.MapFrom(e => e.PostCategory.Title))
+                .ReverseMap();
         }
     }
 }

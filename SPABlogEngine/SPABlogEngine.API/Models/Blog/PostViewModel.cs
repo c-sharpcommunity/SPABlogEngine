@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public int PostCategoryId { get; set; }
+        public string CategoryName { get; set; }
         public string UserId { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }

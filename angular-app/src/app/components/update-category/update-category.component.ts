@@ -42,14 +42,12 @@ export class UpdateCategoryComponent implements OnInit {
           let category = resp.json() as Category;
 
           this.complexForm = fb.group({
-            // tslint:disable-next-line:max-line-length
-            // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
             id: [category.id],
             title: [category.title, Validators.required],
           });
         })
         .catch(exp => {
-          this.notifService.error('Server Exception was raised');
+          this.notifService.error('Server Exception');
         });
     });
   }

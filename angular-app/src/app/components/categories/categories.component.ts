@@ -44,7 +44,7 @@ export class CategoriesComponent implements OnInit {
       })
       .catch(resp => {
         console.log(resp);
-        this.notifService.error('Server Exception was raised');
+        this.notifService.error('Server Exception');
       });
   }
   public searchCategories() {

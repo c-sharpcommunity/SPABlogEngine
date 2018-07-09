@@ -61,7 +61,7 @@ export class UpdatePostComponent implements OnInit {
           });
         })
         .catch(exp => {
-          this.notifService.error('Server Exception was raised');
+          this.notifService.error('Server Exception');
         });
     });
   }
@@ -87,6 +87,7 @@ export class UpdatePostComponent implements OnInit {
   }
 
   public updatePost(model: Post) {
+    model.postCategoryId = Number(model.postCategoryId);
     if (this.files) {
       model.image = this.files[0].name;
       this.upload(this.files);
